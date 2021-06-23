@@ -130,3 +130,5 @@ pygame.time.delay(2000) # 2초정도 대기
 
 # pygame 종료
 pygame.quit()
+
+
