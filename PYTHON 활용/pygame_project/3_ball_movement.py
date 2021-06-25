@@ -51,6 +51,29 @@ weapons = []
 # 무기 이동 속도
 weapon_speed = 10
 
+# 공 만들기 (4개 크기에 대해 따로 처리)
+ball_images = [
+    pygame.image.load(os.path.join(image_path, "balloon1.png")),
+    pygame.image.load(os.path.join(image_path, "balloon2.png")),
+    pygame.image.load(os.path.join(image_path, "balloon3.png")),
+    pygame.image.load(os.path.join(image_path, "balloon4.png")) ]
+
+# 공 크기에 따른 최초 스피드
+ball_speed_y = [-18, -15, -12, -9] # index 0, 1, 2, 3 에 해당하는 값
+
+# 공들
+balls = []
+
+# 최초 발생하는 큰 공 추가
+balls.append({
+    "pos_x" : 50, # 공의 x 좌표
+    "pos_y" : 50, # 공의 y 좌표
+    "img_idx" : 0, # 공의 이미지 인덱스
+    "to_x" : 3, # x축 이동방향, -3 이면 왼쪽으로, 3 이면 오른쪽으로
+    "to_y" : -6, # y축 이동방향,
+    "init_spd_y" : ball_speed_y[0] # y 최초 속도
+})  
+
 running = True
 while running:
     dt = clock.tick(30)
@@ -88,6 +111,30 @@ while running:
     # 천장에 닿은 무기 없에기 
     weapons = [ [w[0], w[1]] for w in weapons if w[1] > 0]
 
+    # 공 위치 정의 
+    for ball_index, ball_val in enumerate(balls):
+        ball_pos_x = ball_val["pos_x"]
+        ball_pos_y = ball_val["pos_y"]
+        ball_img_idx = ball_val["img_idx"]
+
+        ball_size = ball_images[ball_img_idx].get_rect().size
+        ball_width = ball_size[0]
+        ball_height = ball_size[1]
+
+        # 가로벽에 닿았을 떄 공 이동 위치 변경 (튕겨 나오는 효과)
+        if ball_pos_x < 0 or ball_pos_x > screen_width - ball_width:
+            ball_val["to_x"] = ball_val["to_x"] * -1
+
+        # 세로 위치
+        # stage에 튕겨서 올라가는 처리 
+        if ball_pos_y >= screen_height - stage_height - ball_height:
+            ball_val["to_y"] = ball_val["init_spd_y"]
+        else: # 그 외의 모든 경우에는 속도를 점점 증가
+            ball_val["to_y"] += 0.5
+
+        ball_val["pos_x"] += ball_val["to_x"]
+        ball_val["pos_y"] += ball_val["to_y"]
+
     # 4. 충돌 처리
 
     # 5. 화면에 그리기
@@ -95,6 +142,12 @@ while running:
     
     for weapon_x_pos, weapon_y_pos in weapons:
         screen.blit(weapon, (weapon_x_pos, weapon_y_pos))
+
+    for idx, val in enumerate(balls):
+        ball_pos_x = val["pos_x"]
+        ball_pos_y = val["pos_y"]
+        ball_img_idx = val["img_idx"]
+        screen.blit(ball_images[ball_img_idx], (ball_pos_x, ball_pos_y)) 
 
     screen.blit(stage, (0, screen_height - stage_height))
     screen.blit(character, (character_x_pos, character_y_pos))
