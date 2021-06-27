@@ -1,6 +1,17 @@
-# 보석 이미지 불러오기
+# 집게 클래스 만들기
 import pygame
 import os
+
+# 집게 클래스 
+class Claw(pygame.sprite.Sprite):
+    def __init__(self, image, position):
+        super().__init__()
+        self.image = image
+        self.rect = image.get_rect(center = position)
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
 
 # 보석 클래스 
 class Gemstone(pygame.sprite.Sprite):
@@ -45,6 +56,10 @@ gemstone_images = [
 gemstone_group = pygame.sprite.Group()
 setup_gemstone() # 게임에 원하는 만큼의 보석을 정의 
 
+# 집게
+claw_image = pygame.image.load(os.path.join(current_path, "claw.png"))
+claw = Claw(claw_image, (screen_width // 2 , 110)) # 화면 가로 기준 절반, 위에서 110 픽셀 
+
 running = True
 while running:
     dt = clock.tick(30) # FPS값 30으로 고정 
@@ -61,6 +76,8 @@ while running:
     screen.blit(background, (0, 0))
 
     gemstone_group.draw(screen) # 그룹 내 모든 스프라이트를 screen에 그림
+
+    claw.draw(screen)
 
     pygame.display.update()
 
