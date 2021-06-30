@@ -1,0 +1,77 @@
+<정리>
+- from random import* : random함수 호출 
+
+- import : 선언
+    pygame, os, math, webbrowser
+
+- os.path.dirname(__file__) : 현재 파일 위치 반환
+    __file__ : 실행중의 파일을 표시
+    os.path.dirname(__file__) : 파일의 상대경로 표시
+    os.path.join() : 경로와 파일명을 결합하거나 분할된 경로를 하나로 정리
+
+    (사용법)
+        current_path = os.path.dirname(__file__)
+        pygame.image.load(os.path.join(current_path, "small_gold.png"))
+        뒤에 '.convert_alpha()' 추가시 : 픽셀 형식 변경
+
+- pygame
+    .init() : 가져온 모든 파이 게임 모듈을 초기화 해준다.
+    .quit() : 게임 종료 버튼(창 닫기 버튼) 클릭시 종료
+    .KEYDOWN : 키보드가 눌러졌을 경우
+    .KEYUP : 키보드가 떨어 졌을 경우
+    .K_LEFT : 왼쪽 화살표 키보드
+    .K_RIGHT : 오른쪽 화살표 키보드 
+
+- pygame.draw
+    .rect(screen, RED, self.rect, 1) : 사각형 그리기
+
+- pygame.display
+    .set_mode((x, y)) : 창, 화면
+    .set_caption("프로그램 이름") : 타이틀 선정
+    .update() : 게임화면을 다시 그리기
+
+- pygame.event
+    .get() : 대기열에서 이벤트 가져오기
+
+- pygame.font
+    .get_fonts() : 사용 가능한 모든 글꼴 가져오기 
+    .font_Font("폰트 이름", 크기)
+    .SysFont("폰트 이름", 크기)
+    .render(f"Time : {time}", True, BLACK) 글 내용
+
+- pygame.image
+    .load("이미지 경로") : 이미지 가져오기
+        (사용법) 7_txt.py (line 35 ~ 41)
+            img = pygame.image.load(" 이미지 경로 ")
+            img_size = img.get_rect().size : 이미지의 크기 구해옴
+            img_width = img_size[0] : 캐릭터의 가로크기
+            img_height = img_size[1] : 캐릭터의 세로크기
+            img_x_pos = (screen_width / 2) - (img_width / 2) : 화면 가로의 절반 크기에 해당하는 곳에 위치 (가로위치)
+            img_y_pos = (screen_height / 2) - (img_height / 2 : 화면 세로의 절반 크기에 해당하는 곳에 위치 (세로위치)
+
+- pygame.Rect
+    .colliderect() : 두 직사각형 충돌 여부
+        (사용법) 7_txt.py (line 103)
+            character_rect.colliderect(enemy_rect): # 사각형(rect) 기준으로 충돌이 있었는지 확인하는 함수
+
+- pygame.time
+    .get_ticks() : 밀리초 단위로 시간 얻기 
+    .Clock() : 시간 추적 개체 만들기 (FPS)
+    .Clock.tick : 시계 업데이트
+    .delay() : 일정 시간동안 프로그램 일시 정지
+
+- screen.blit(이미지 객체 변수, (x ,y)) : 스크린에 그리기
+
+- pygame.sprite
+    .Sprite
+        Sprite는 게임에서 나타내는 모든 캐릭터, 장애물등을 표현할 때 사용하는 Surface
+        Sprite를 사용하면 Sprite 그룹을 만들어서 모두 한꺼번에 움직이게 하거나 Sprite들끼리의 충돌 등을 알아낼 수 있다.(움직이는 이미지)
+    .collide_mask(claw, gemstone) : 투명 영역은 제외하고 실제 이미지 영역에 대한 효과
+    .Group()
+        (사용법)
+            pygame.sprite.Group(*sprites) : return Group
+            메소드
+                Group.add(*sprites) : return None -> 그룹에 스프라이트를 추가
+                Group.remove(*sprites) : return None -> 그룹에서 스프라이트를 제거 
+                Group.draw(*sprites) : return None -> Surface에 포함된 스프라이트를 그리기
+                Group.update(*sprites) : return None -> 그룹 내 모든 스프라이트의 update()메소드 호출
