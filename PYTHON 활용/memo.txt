@@ -24,6 +24,7 @@
 
 - pygame.draw
     .rect(screen, RED, self.rect, 1) : 사각형 그리기
+    .circle(screen, white, start_button.center, 60(반지름), 5(두께))
 
 - pygame.display
     .set_mode((x, y)) : 창, 화면
