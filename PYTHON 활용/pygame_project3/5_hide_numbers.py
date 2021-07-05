@@ -1,4 +1,4 @@
-# 스타트 버튼 만들기 
+# 숫자 숨기기 
 import pygame
 from random import *
 
@@ -60,17 +60,37 @@ def display_start_screen():
 # 게임 화면보여주기 
 def display_game_screen():
     for idx, rect in enumerate(number_buttons, start = 1):
-        pygame.draw.rect(screen, GRAY, rect)
-
-        # 실제 숫자 텍스트
-        cell_text = game_font.render(str(idx), True, WHITE)
-        text_rect = cell_text.get_rect(center = rect.center) # rect의 중간값을 가져와 text_rect값으로 가져온다.
-        screen.blit(cell_text, text_rect)
+        if hidden:     
+            # 버튼 사각형 그리기 
+            pygame.draw.rect(screen, WHITE, rect)
+        else:
+            # 실제 숫자 텍스트
+            cell_text = game_font.render(str(idx), True, WHITE)
+            text_rect = cell_text.get_rect(center = rect.center) # rect의 중간값을 가져와 text_rect값으로 가져온다.
+            screen.blit(cell_text, text_rect)
 
 def check_buttons(pos):
     global start 
-    if start_button.collidepoint(pos): # 클릭한 위치가 pos 안에 있는지 확인
+
+    if start: # 게임이 시작 했으면?  
+        check_number_buttons(pos)
+    elif start_button.collidepoint(pos): # 클릭한 위치가 pos 안에 있는지 확인
         start = True
+
+def check_number_buttons(pos):
+    global hidden
+
+    for button in number_buttons:
+        if button.collidepoint(pos):
+            if button == number_buttons[0]: # 옳바른 숫자 클릭
+                print("Correct")
+                del number_buttons[0] # 리스트에서 첫번째 인덱스 값을 지운다 del
+                if not hidden:
+                    hidden = True # 숫자 숨김 처리 
+            else: # 잘못된 숫자 클릭
+                print("Wrong")
+            break
+
 
 pygame.init() 
 screen_width = 1280
@@ -93,6 +113,10 @@ number_buttons = [] # 플레이어가 눌러야 하는 버튼들
 
 # 게임 시작 여부 
 start = False
+
+# 숫자 숨김 여부 (사용자가 1을 클릭 했거나, 보여지는 시간을 초과 했을 때)
+hidden = False
+
 
 # 게임 시작 전에 게임 설정 함수 수행 
 setup(1)
