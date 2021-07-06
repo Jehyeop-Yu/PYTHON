@@ -86,7 +86,7 @@ while running:
     weapons = [[w[0], w[1] - weapon_speed] for w in weapons] # weapons 의 값을 w 리스트에 넣고 w 리스트의 x값 w[0], y값 [1]을 가져와서 계산 (무기 위치를 위로)
 
     # 천장에 닿은 무기 없에기 
-    weapons = [ [w[0], w[1]] for w in weapons if w[1] > 0]
+    weapons = [[w[0], w[1]] for w in weapons if w[1] > 0]
 
     # 4. 충돌 처리
 

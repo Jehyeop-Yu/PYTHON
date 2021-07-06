@@ -2,8 +2,6 @@
 import pygame
 from random import *
 
-from pygame.time import delay
-
 # 레벨에 맞게 설정
 def setup(level):
     # 얼마동안 시간을 보여줄지?
