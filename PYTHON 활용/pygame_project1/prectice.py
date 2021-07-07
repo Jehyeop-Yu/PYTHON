@@ -15,10 +15,6 @@ pygame.display.set_caption("creating_again")
 # 2-1. 파일 넣기위한 베이스 작업
 background = pygame.image.load(os.path.join(os.path.join(os.path.dirname(__file__), "images"), "background.png"))
 
-stage = pygame.image.load(os.path.join(os.path.join(os.path.dirname(__file__), "images"), "stage.png"))
-stage_size = stage.get_rect().size # 원래 이미지 크기 값을 가져온다 [0]:가로 , [1]:세로
-print(stage_size)
-
 
 
 
