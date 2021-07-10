@@ -34,7 +34,7 @@ def shuffle_grid(number_count):
     # [0, 0, 0, 0, 0, 0, 0, 0, 0]]
     grid = [[0 for col in range(columns)] for row in range(rows)] # columns 갯수만큼 반복하면서 각 각 값을 0으로 넣어준다.
     
-    number = 1 # 시작 숫자 1부터 number_count 까지, 만약 5라면 5까지 숫자를 앤덤으로 배치
+    number = 1 # 시작 숫자 1부터 number_count 까지, 만약 5라면 5까지 숫자를 랜덤으로 배치
     while number <= number_count:
         row_idx = randrange(0, rows) # 0, 1, 2, 3, 4 중에서 랜덤으로 뽑기
         col_idx = randrange(0, columns) # 0, 1, 2, 3, 4, 5, 6, 7, 8 중에서 랜덤으로 뽑기 
@@ -44,12 +44,12 @@ def shuffle_grid(number_count):
             number += 1
 
             # 현재 grid cell 위치 기준으로 x, y 위치를 구함
-            censter_x = screen_left_margin + (col_idx * cell_size) + (cell_size / 2)
-            censter_y = screen_top_margin + (row_idx * cell_size) + (cell_size / 2)
+            center_x = screen_left_margin + (col_idx * cell_size) + (cell_size / 2)
+            center_y = screen_top_margin + (row_idx * cell_size) + (cell_size / 2)
 
             # 숫자 버튼 만들기   
             button = pygame.Rect(0, 0, button_size, button_size)
-            button.center = (censter_x, censter_y)
+            button.center = (center_x, center_y)
 
             number_buttons.append(button)
 

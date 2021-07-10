@@ -79,3 +79,5 @@ while True:
         print(template2, " position : ", pos) 
         imageClicks( template2, pos )
     time.sleep(0.3) # delay
+
+    
