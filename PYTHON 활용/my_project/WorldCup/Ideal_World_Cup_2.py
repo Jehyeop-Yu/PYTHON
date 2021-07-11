@@ -18,30 +18,24 @@ from random import *
 def display_left_screen():
     pygame.draw.rect(screen, BLACK, select_left, 1)
 
-def shuffle_img():
-    shuffle(select_img_1)
-
 def check_buttons(pos):
     shuffle(select_img_1)
-    img_left = select_img_1[0] # len(img)
+    img_left = select_img_1[0]
     del select_img_1[0]
     img_right = select_img_1[0]
     del select_img_1[0]
-    # print("left={}".format(img_left))
-    # print("right={}".format(img_right))
-    # print("list={}".format(select_img_1))
+    print("left={}".format(img_left))
+    print("right={}".format(img_right))
+    print("list={}".format(select_img_1))
 
-    if select_left.collidepoint(pos): # 클릭한 위치가 pos 안에 있는지 확인
+    if select_left.collidepoint(pos):
         select_img_2.append(img_left)
         print("LEFT")
         print(select_img_2)
-
-    else: # 클릭한 위치가 pos 안에 있는지 확인
+    else:
         select_img_2.append(img_right)
         print("RIGHT")
         print(select_img_2)
-
-
 
 pygame.init() 
 screen_width = 1200 # 가로 크기
@@ -65,8 +59,8 @@ WHITE = (255, 255, 255)
 
 select_img_1 = list(range(0, 16)) # 16강
 select_img_2 = [] # 8강
-select_img_3 = () # 4강
-select_img_4 = () # 결승
+select_img_3 = [] # 4강
+select_img_4 = [] # 결승
 
 running = True
 
@@ -81,7 +75,6 @@ while running:
         elif event.type == pygame.MOUSEBUTTONUP: # 사용자가 마우스를 클릭 했을 때
             click_pos = pygame.mouse.get_pos() # 클릭한 위치 값 가져오기
             print(click_pos)
-            shuffle_img()
    
     screen.blit(background, (0, 0))
     display_left_screen()

@@ -18,28 +18,63 @@ from random import *
 def display_left_screen():
     pygame.draw.rect(screen, BLACK, select_left, 1)
 
-def shuffle_img():
-    shuffle(select_img_1)
-
 def check_buttons(pos):
-    shuffle(select_img_1)
-    img_left = select_img_1[0] # len(img)
-    del select_img_1[0]
-    img_right = select_img_1[0]
-    del select_img_1[0]
-    # print("left={}".format(img_left))
-    # print("right={}".format(img_right))
-    # print("list={}".format(select_img_1))
+    global round_cnt, select_img_1, select_img_2
 
-    if select_left.collidepoint(pos): # 클릭한 위치가 pos 안에 있는지 확인
-        select_img_2.append(img_left)
-        print("LEFT")
-        print(select_img_2)
+    if round_cnt == 1:
+        round = select_img_1
+        next_round = select_img_2
+        shuffle(select_img_1)
+        img_left = round[0]
+        del round[0]
+        img_right = round[0]
+        del round[0]
+        print("left={}".format(img_left))
+        print("right={}".format(img_right))
+        print("list1={}".format(round))
+        
+        if select_left.collidepoint(pos):
+            next_round.append(img_left)
+            print("LEFT")
+            print("list2={}".format(next_round))
+        else:
+            next_round.append(img_right)
+            print("RIGHT")
+            print("list2={}".format(next_round))
+        
+        if len(round) <= 0:
+            round_cnt += 1
+            print(round_cnt)
 
-    else: # 클릭한 위치가 pos 안에 있는지 확인
-        select_img_2.append(img_right)
-        print("RIGHT")
-        print(select_img_2)
+    if round_cnt == 2 :
+        round = select_img_2
+        next_round = select_img_1
+        shuffle(select_img_2)
+        img_left = round[0]
+        del round[0]
+        img_right = round[0]
+        del round[0]
+        print("left={}".format(img_left))
+        print("right={}".format(img_right))
+        print("list1={}".format(round))
+        
+        if select_left.collidepoint(pos):
+            next_round.append(img_left)
+            print("LEFT")
+            print("list2={}".format(next_round))
+        else:
+            next_round.append(img_right)
+            print("RIGHT")
+            print("list2={}".format(next_round))
+
+        if len(round) <= 0:
+            round_cnt += 1
+            print(round_cnt)
+
+
+    
+
+
 
 
 
@@ -63,17 +98,15 @@ select_right.center = (screen_width / 4, screen_height / 2)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-select_img_1 = list(range(0, 16)) # 16강
-select_img_2 = [] # 8강
-select_img_3 = () # 4강
-select_img_4 = () # 결승
+round_cnt = 1
+select_img_1 = list(range(0, 16))
+select_img_2 = [] 
 
 running = True
 
 while running:
     dt = clock.tick(30)
     click_pos = None
-    
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -81,7 +114,6 @@ while running:
         elif event.type == pygame.MOUSEBUTTONUP: # 사용자가 마우스를 클릭 했을 때
             click_pos = pygame.mouse.get_pos() # 클릭한 위치 값 가져오기
             print(click_pos)
-            shuffle_img()
    
     screen.blit(background, (0, 0))
     display_left_screen()
