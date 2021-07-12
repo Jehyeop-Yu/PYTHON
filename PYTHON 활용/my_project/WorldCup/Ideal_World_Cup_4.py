@@ -19,87 +19,43 @@ def display_left_screen():
     pygame.draw.rect(screen, BLACK, select_left, 1)
 
 def check_buttons(pos):
-    global round_cnt, select_img_1, select_img_2
-
-    if round_cnt == 1:
+    global round_cnt, select_img_1, select_img_2, round, next_round
+    if (round_cnt % 2) >= 1:
         round = select_img_1
         next_round = select_img_2
-        shuffle(select_img_1)
-        img_left = round[0]
-        del round[0]
-        img_right = round[0]
-        del round[0]
-        print("left={}".format(img_left))
-        print("right={}".format(img_right))
-        print("list1={}".format(round))
         
-        if select_left.collidepoint(pos):
-            next_round.append(img_left)
-            print("LEFT")
-            print("list2={}".format(next_round))
-        else:
-            next_round.append(img_right)
-            print("RIGHT")
-            print("list2={}".format(next_round))
-        
-        if len(round) <= 0:
-            round_cnt += 1
-            print(round_cnt)
-
-    if round_cnt == 2 :
+    else:
         round = select_img_2
         next_round = select_img_1
-        shuffle(select_img_2)
-        img_left = round[0]
-        del round[0]
-        img_right = round[0]
-        del round[0]
-        print("left={}".format(img_left))
-        print("right={}".format(img_right))
-        print("list1={}".format(round))
         
-        if select_left.collidepoint(pos):
-            next_round.append(img_left)
-            print("LEFT")
-            print("list2={}".format(next_round))
-        else:
-            next_round.append(img_right)
-            print("RIGHT")
-            print("list2={}".format(next_round))
-
-        if len(round) <= 0:
-            round_cnt += 1
-            print(round_cnt)
-
-    if round_cnt == 3 :
-        round = select_img_1
-        next_round = select_img_2
-        shuffle(select_img_2)
-        img_left = round[0]
-        del round[0]
-        img_right = round[0]
-        del round[0]
-        print("left={}".format(img_left))
-        print("right={}".format(img_right))
-        print("list1={}".format(round))
-        
-        if select_left.collidepoint(pos):
-            next_round.append(img_left)
-            print("LEFT")
-            print("list2={}".format(next_round))
-        else:
-            next_round.append(img_right)
-            print("RIGHT")
-            print("list2={}".format(next_round))
-
-        if len(round) <= 0:
-            round_cnt += 1
-            print(round_cnt)
-
-
+    # elif round_cnt == 3:
+    #     round = select_img_1
+    #     next_round = select_img_2
     
-
-
+    # elif round_cnt == 4:
+    #     round = select_img_2
+    #     next_round = select_img_1
+    
+    shuffle(round)
+    img_left = round[0]
+    img_right = round[1]
+    del round[0:2]
+    print("left={}".format(img_left))
+    print("right={}".format(img_right))
+    print("list1={}".format(round))
+        
+    if select_left.collidepoint(pos):
+        next_round.append(img_left)
+        print("LEFT")
+        print("list2={}".format(next_round))
+    else:
+        next_round.append(img_right)
+        print("RIGHT")
+        print("list2={}".format(next_round))
+        
+    if len(round) <= 0:
+        round_cnt += 1
+        print(round_cnt)
 
 
 
@@ -114,6 +70,15 @@ clock = pygame.time.Clock()
 current_path = os.path.dirname(__file__)
 background = pygame.image.load(os.path.join(current_path, "background.png"))
 
+imges = [
+    pygame.image.load(os.path.join(current_path, "img1.png")),
+    pygame.image.load(os.path.join(current_path, "img2.png")),
+    pygame.image.load(os.path.join(current_path, "img3.png")),
+    pygame.image.load(os.path.join(current_path, "img4.png")),
+    pygame.image.load(os.path.join(current_path, "img5.png")),
+    pygame.image.load(os.path.join(current_path, "img6.png")),
+    pygame.image.load(os.path.join(current_path, "img7.png"))]
+
 select_left = pygame.Rect(0, 0, 600, 800)
 select_left.center = (screen_width / 4, screen_height / 2)
 
@@ -124,6 +89,9 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 round_cnt = 1
+round = ()
+next_round = ()
+
 select_img_1 = list(range(0, 16))
 select_img_2 = [] 
 
@@ -145,6 +113,7 @@ while running:
 
     if click_pos:
         check_buttons(click_pos)
+
 
     pygame.display.update() # 게임화면을 다시 그리기
     
