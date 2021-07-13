@@ -2,6 +2,8 @@ import os
 import pygame
 from random import *
 
+from pygame import surface
+
 def display_left_screen():
     pygame.draw.rect(screen, BLACK, select_left, 1)
 
@@ -10,8 +12,8 @@ def check_buttons(pos):
         check_left_img()
     else:
         check_right_img()
-    print("list1={}".format(round))
-    print("list2={}".format(next_round))
+    # print("list1={}".format(round))
+    # print("list2={}".format(next_round))
 
 
 def check_left_img():
@@ -64,34 +66,44 @@ round_cnt = 1
 round = ()
 next_round = ()
 
-select_img_1 = list(enumerate(imges))
-# select_img_1 = []
+
+select_img_1 = list(imges)
 select_img_2 = [] 
 
 running = True
 
-start = False
+start = True
 
-for lst_idx in enumerate(imges):
-    print(lst_idx)
+for lst_idx, lst_val in enumerate(imges):
+    print(lst_idx, lst_val)
 
 while running:
     dt = clock.tick(30)
     click_pos = None
-    
+    screen.blit(imges[0], (0,0))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.MOUSEBUTTONUP:
             click_pos = pygame.mouse.get_pos() 
             print(click_pos)
+            print("index={}".format(round[0]))
+            
+
+    screen.blit(background, (0, 0))
+        
 
     if (round_cnt % 2) >= 1:
+        screen.blit(round[0], (0, 0))
+        screen.blit(round[1], (600, 0))
         round = select_img_1
         next_round = select_img_2
-    else:
+    elif(round_cnt % 2) == 0:
         round = select_img_2
         next_round = select_img_1
+    elif round_cnt == 4:
+        print("최종 선택")
 
     if len(round) <= 0:
         round_cnt += 1
@@ -99,11 +111,15 @@ while running:
 
     shuffle(round)
 
-    screen.blit(background, (0, 0))
+    
     display_left_screen()
+    
+    
 
     if click_pos:
         check_buttons(click_pos)
+
+
 
     pygame.display.update()
     
