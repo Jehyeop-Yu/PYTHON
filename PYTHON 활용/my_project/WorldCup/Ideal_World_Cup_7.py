@@ -3,14 +3,24 @@ import os
 import pygame
 from random import *
 
-def display_left_screen():
-    pygame.draw.rect(screen, BLACK, start_btn, 1)
+def display_start_btn():
+    pygame.draw.rect(screen, BLACK, startbtn, 3)
+    screen.blit(start_btn, (((screen_width/2)-(start_width/2)), ((screen_height/2)-(start_height/2))))
 
-# def check_buttons(pos):
-#     if select_left.collidepoint(pos):
-#         check_left_img()
-#     else:
-#         check_right_img()
+
+def display_img(i):
+    global round
+    left_imge_size = round[i].get_rect().size
+    left_imge_width = left_imge_size[0]
+    left_imge_height = left_imge_size[1]
+    left_imge_center = ((screen_width/4) - (left_imge_width / 2)), ((screen_height / 2) - (left_imge_height / 2))
+    screen.blit(round[i], left_imge_center)
+
+    right_imge_size = round[i+1].get_rect().size
+    right_imge_width = right_imge_size[0]
+    right_imge_height = right_imge_size[1]
+    right_imge_center = (600 + (screen_width/4) - (right_imge_width / 2)), ((screen_height / 2) - (right_imge_height / 2))
+    screen.blit(round[i+1], right_imge_center)
 
 def check_buttons(pos):
     global start
@@ -19,7 +29,7 @@ def check_buttons(pos):
             check_left_img()
         else:
             check_right_img()
-    elif start_btn.collidepoint(pos):     
+    elif startbtn.collidepoint(pos):     
         start = True
         shfl()
     # print("list1={}".format(round))
@@ -27,6 +37,7 @@ def check_buttons(pos):
 
 def shfl():
     shuffle(round)
+
 
 def check_left_img():
     next_round.append(round[0])
@@ -47,6 +58,14 @@ clock = pygame.time.Clock()
 current_path = os.path.dirname(__file__)
 background = pygame.image.load(os.path.join(current_path, "background.png"))
 
+start_btn = pygame.image.load(os.path.join(current_path, "img0.png"))
+start_size = start_btn.get_rect().size
+start_width = start_size[0]
+start_height = start_size[1]
+startbtn = pygame.Rect(((screen_width/2)-(start_width/2)), ((screen_height/2)-(start_height/2)), start_width, start_height)
+
+
+
 imges = [
     pygame.image.load(os.path.join(current_path, "img1.png")),
     pygame.image.load(os.path.join(current_path, "img2.png")),
@@ -65,7 +84,8 @@ imges = [
     pygame.image.load(os.path.join(current_path, "img15.png")),
     pygame.image.load(os.path.join(current_path, "img16.png")),]
 
-start_btn = pygame.Rect((screen_width / 2) - 50, screen_height / 2, 100, 50)
+
+# start_btn = pygame.Rect((screen_width / 2) - 50, screen_height / 2, 100, 50)
 
 select_left = pygame.Rect(0, 0, 600, 800)
 select_left.center = (screen_width / 4, screen_height / 2)
@@ -96,7 +116,6 @@ for lst_idx, lst_val in enumerate(imges):
 while running:
     dt = clock.tick(30)
     click_pos = None
-    # screen.blit(imges[0], (0,0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -122,18 +141,14 @@ while running:
         print(round_cnt)
 
     if len(round) >= 2:
-        screen.blit(round[0], (0, 0))
-        screen.blit(round[1], (600, 0))
+        display_img(0)
     else:
         pass
 
-
-    display_left_screen()
+    display_start_btn()
 
     if click_pos:
         check_buttons(click_pos)
-
-
 
     pygame.display.update()
     

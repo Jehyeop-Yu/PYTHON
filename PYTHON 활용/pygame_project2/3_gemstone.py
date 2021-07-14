@@ -14,7 +14,7 @@ def setup_gemstone():
     small_gold = Gemstone(gemstone_images[0], (200, 380)) # 0번재 이미지를 (200, 300) 위치에 
     gemstone_group.add(small_gold) # 그룹에 추가
     # 큰금
-    gemstone_group.add(Gemstone(gemstone_images[1] , (300, 500)))
+    gemstone_group.add(Gemstone(gemstone_images[1] , (0, 0)))
     # 돌
     gemstone_group.add(Gemstone(gemstone_images[2] , (300, 380)))
     # 다이아몬드

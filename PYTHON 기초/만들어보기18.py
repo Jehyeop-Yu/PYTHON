@@ -39,13 +39,13 @@
 # except ValueError:
 #     print("잘못된 값을 입력하였습니다. 한 자리 숫자만 입력하세요.")
 
-# # 사용자 정의 예외처리 , finally
-# class BigNumberError(Exception):
-#     def __init__(self,msg):
-#         self.msg = msg
+# 사용자 정의 예외처리 , finally
+class BigNumberError(Exception):
+    def __init__(self,msg):
+        self.msg = msg
 
-#     def __str__(self):
-#         return self.msg
+    def __str__(self):
+        return self.msg
 
 # try:
 #     print("한 자리 숫자 나누기 전용 계산기 입니다.")
