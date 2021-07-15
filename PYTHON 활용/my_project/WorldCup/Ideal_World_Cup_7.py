@@ -52,6 +52,15 @@ def check_right_img():
     next_round.append(round[1])
     del round[0:2]
 
+def display_round():
+    global Round_score
+    if round_cnt < 5 :
+        Round_score = round_set // (2**round_cnt)
+        txt_curr_round = game_font.render(f"round : {Round_score}", True, BLACK)
+    else:
+        txt_curr_round = game_font.render(f"Your final choice", True, BLACK)
+    screen.blit(txt_curr_round, (50, 20))
+
 pygame.init() 
 screen_width = 1200 # 가로 크기
 screen_height = 800 # 세로 크기
@@ -89,19 +98,20 @@ imges = [
     pygame.image.load(os.path.join(current_path, "img15.png")),
     pygame.image.load(os.path.join(current_path, "img16.png")),]
 
-
 # start_btn = pygame.Rect((screen_width / 2) - 50, screen_height / 2, 100, 50)
 
 select_left = pygame.Rect(0, 0, 600, 800)
-select_left.center = (screen_width / 4, screen_height / 2)
 
 select_right = pygame.Rect(600, 0, 600, 800)
-select_right.center = (screen_width / 4, screen_height / 2)
+
+game_font = pygame.font.SysFont("arialrounded", 30)
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
+round_set = 16
 round_cnt = 1
+Round_score = 0
 round = ()
 next_round = ()
 
@@ -159,6 +169,7 @@ while running:
     if click_pos:
         check_buttons(click_pos)
 
+    display_round()
     pygame.display.update()
     
 pygame.quit()
