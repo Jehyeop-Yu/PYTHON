@@ -7,20 +7,26 @@ def display_start_btn():
     pygame.draw.rect(screen, BLACK, startbtn, 3)
     screen.blit(start_btn, (((screen_width/2)-(start_width/2)), ((screen_height/2)-(start_height/2))))
 
-
 def display_img(i):
     global round
-    left_imge_size = round[i].get_rect().size
-    left_imge_width = left_imge_size[0]
-    left_imge_height = left_imge_size[1]
-    left_imge_center = ((screen_width/4) - (left_imge_width / 2)), ((screen_height / 2) - (left_imge_height / 2))
-    screen.blit(round[i], left_imge_center)
+    left_img_size = round[i].get_rect().size
+    left_img_width = left_img_size[0]
+    left_img_height = left_img_size[1]
+    left_img_center = ((screen_width/4) - (left_img_width / 2)), ((screen_height / 2) - (left_img_height / 2))
+    screen.blit(round[i], left_img_center)
 
-    right_imge_size = round[i+1].get_rect().size
-    right_imge_width = right_imge_size[0]
-    right_imge_height = right_imge_size[1]
-    right_imge_center = (600 + (screen_width/4) - (right_imge_width / 2)), ((screen_height / 2) - (right_imge_height / 2))
-    screen.blit(round[i+1], right_imge_center)
+    right_img_size = round[i+1].get_rect().size
+    right_img_width = right_img_size[0]
+    right_img_height = right_img_size[1]
+    right_img_center = (600 + (screen_width/4) - (right_img_width / 2)), ((screen_height / 2) - (right_img_height / 2))
+    screen.blit(round[i+1], right_img_center)
+
+def display_last_img():
+    last_img = round[0].get_rect().size
+    last_img_width = last_img[0]
+    last_img_height = last_img[1]
+    last_img_center = (((screen_width/2)-(last_img_width/2)), ((screen_height/2)-(last_img_height/2)))
+    screen.blit(round[0], last_img_center)
 
 def check_buttons(pos):
     global start
@@ -37,7 +43,6 @@ def check_buttons(pos):
 
 def shfl():
     shuffle(round)
-
 
 def check_left_img():
     next_round.append(round[0])
@@ -126,26 +131,30 @@ while running:
 
     screen.blit(background, (0, 0))
 
-    
     if (round_cnt % 2) >= 1:
         round = select_img_1
         next_round = select_img_2
         if round_cnt == 5:
-            break
+           display_last_img()
     elif(round_cnt % 2) == 0:
         round = select_img_2
         next_round = select_img_1
 
+
     if len(round) <= 0:
         round_cnt += 1
         print(round_cnt)
-
-    if len(round) >= 2:
-        display_img(0)
+    elif len(round) >= 2:
+        if start == True:
+            display_img(0)
     else:
         pass
+    
 
-    display_start_btn()
+    if start == True:    
+        pass
+    else:
+        display_start_btn()
 
     if click_pos:
         check_buttons(click_pos)
