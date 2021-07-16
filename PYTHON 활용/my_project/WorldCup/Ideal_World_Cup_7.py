@@ -7,6 +7,14 @@ def display_start_btn():
     pygame.draw.rect(screen, BLACK, startbtn, 3)
     screen.blit(start_btn, (((screen_width/2)-(start_width/2)), ((screen_height/2)-(start_height/2))))
 
+def display_Chance_btn():
+    # pygame.draw.rect(screen, BLACK, chancebtn, 3)
+    screen.blit(chance_btn, ((screen_width)-150, 10))
+
+def display_help_btn():
+    # pygame.draw.rect(screen, BLACK, helpbtn, 3)
+    screen.blit(help_btn, ((screen_width)-230, 10))
+
 def display_img(i):
     global round
     left_img_size = round[i].get_rect().size
@@ -77,6 +85,18 @@ start_size = start_btn.get_rect().size
 start_width = start_size[0]
 start_height = start_size[1]
 startbtn = pygame.Rect(((screen_width/2)-(start_width/2)), ((screen_height/2)-(start_height/2)), start_width, start_height)
+
+chance_btn = pygame.image.load(os.path.join(current_path, "chance_btn.png"))
+chance_size = chance_btn.get_rect().size
+chance_width = chance_size[0]
+chance_height = chance_size[1]
+chancebtn = pygame.Rect(((screen_width/2)-(chance_width/2)), ((screen_height/2)-(chance_height/2)), chance_width, chance_height)
+
+help_btn = pygame.image.load(os.path.join(current_path, "help_btn.png"))
+help_size = help_btn.get_rect().size
+help_width = help_size[0]
+help_height = help_size[1]
+helpbtn = pygame.Rect(((screen_width/2)-(help_width/2)), ((screen_height/2)-(start_height/2)), help_width, help_height)
 
 
 
@@ -161,7 +181,9 @@ while running:
         pass
     
 
-    if start == True:    
+    if start == True:
+        display_help_btn()
+        display_Chance_btn()
         pass
     else:
         display_start_btn()
