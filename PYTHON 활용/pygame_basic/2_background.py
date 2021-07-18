@@ -12,7 +12,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Jehyeop Game") # 게임 이름
 
 # 배경 이미지 불러오기
-background = pygame.image.load("PYTHON/PYTHON 활용/pygame_basic/background.png")
+background = pygame.image.load("F:/코딩/PYTHON/PYTHON 활용/pygame_basic/background.png")
 
 # 이벤트 루프
 running = True # 게임이 진행중인가?

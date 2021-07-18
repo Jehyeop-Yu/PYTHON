@@ -8,11 +8,11 @@ def display_start_btn():
     screen.blit(start_btn, (((screen_width/2)-(start_width/2)), ((screen_height/2)-(start_height/2))))
 
 def display_Chance_btn():
-    # pygame.draw.rect(screen, BLACK, chancebtn, 3)
+    pygame.draw.rect(screen, BLACK, chancebtn, 1)
     screen.blit(chance_btn, ((screen_width)-150, 10))
 
 def display_help_btn():
-    # pygame.draw.rect(screen, BLACK, helpbtn, 3)
+    pygame.draw.rect(screen, BLACK, helpbtn, 1)
     screen.blit(help_btn, ((screen_width)-230, 10))
 
 def display_img(i):
@@ -41,11 +41,16 @@ def check_buttons(pos):
     if start:
         if select_left.collidepoint(pos):
             check_left_img()
-        else:
+        elif select_right.collidepoint(pos):
             check_right_img()
+        elif helpbtn.collidepoint(pos):
+            print("click: helpbtn")
+        elif chancebtn.collidepoint(pos):
+            print("click: chancebtn")
     elif startbtn.collidepoint(pos):     
         start = True
         shfl()
+    
     # print("list1={}".format(round))
     # print("list2={}".format(next_round))
 
@@ -62,11 +67,16 @@ def check_right_img():
 
 def display_round():
     global Round_score
-    if round_cnt < 5 :
+    if round_cnt < 5:
         Round_score = round_set // (2**round_cnt)
-        txt_curr_round = game_font.render(f"round : {Round_score}", True, BLACK)
+        txt_curr_round = game_font.render(f"{Round_score}강", True, BLACK)
+        if Round_score == 2:
+            txt_curr_round = game_font.render(f"준결승", True, BLACK)
+        elif Round_score == 1:
+            txt_curr_round = game_font.render(f"결승", True, BLACK)
+
     else:
-        txt_curr_round = game_font.render(f"Your final choice", True, BLACK)
+        txt_curr_round = game_font.render(f"당신의 이상형", True, BLACK)
     screen.blit(txt_curr_round, (50, 20))
 
 pygame.init() 
@@ -90,14 +100,13 @@ chance_btn = pygame.image.load(os.path.join(current_path, "chance_btn.png"))
 chance_size = chance_btn.get_rect().size
 chance_width = chance_size[0]
 chance_height = chance_size[1]
-chancebtn = pygame.Rect(((screen_width/2)-(chance_width/2)), ((screen_height/2)-(chance_height/2)), chance_width, chance_height)
+chancebtn = pygame.Rect((screen_width)-150, 10, chance_width, chance_height)
 
 help_btn = pygame.image.load(os.path.join(current_path, "help_btn.png"))
 help_size = help_btn.get_rect().size
 help_width = help_size[0]
 help_height = help_size[1]
-helpbtn = pygame.Rect(((screen_width/2)-(help_width/2)), ((screen_height/2)-(start_height/2)), help_width, help_height)
-
+helpbtn = pygame.Rect((screen_width)-230, 10, help_width, help_height)
 
 
 imges = [
@@ -120,11 +129,12 @@ imges = [
 
 # start_btn = pygame.Rect((screen_width / 2) - 50, screen_height / 2, 100, 50)
 
-select_left = pygame.Rect(0, 0, 600, 800)
+select_left = pygame.Rect(0, 55, 600, 645)
 
-select_right = pygame.Rect(600, 0, 600, 800)
+select_right = pygame.Rect(600, 55, 600, 645)
 
-game_font = pygame.font.SysFont("arialrounded", 30)
+game_font = pygame.font.SysFont('카페24동동', 30)
+# game_font = pygame.font.SysFont("arialrounded", 30)
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)

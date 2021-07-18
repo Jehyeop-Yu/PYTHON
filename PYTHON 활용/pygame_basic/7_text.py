@@ -15,10 +15,10 @@ pygame.display.set_caption("Jehyeop Game") # 게임 이름
 clock = pygame.time.Clock()
 
 # 배경 이미지 불러오기
-background = pygame.image.load("PYTHON/PYTHON 활용/pygame_basic/background.png")
+background = pygame.image.load("F:/코딩/PYTHON/PYTHON 활용/pygame_basic/background.png")
 
 # 캐릭터(스프라이트) 불러오기
-character = pygame.image.load("PYTHON/PYTHON 활용/pygame_basic/character.png")
+character = pygame.image.load("F:/코딩/PYTHON/PYTHON 활용/pygame_basic/character.png")
 character_size = character.get_rect().size # 이미지의 크기 구해옴
 character_width = character_size[0] # 캐릭터의 가로크기
 character_height = character_size[1] # 캐릭터의 세로크기
@@ -33,7 +33,7 @@ to_y = 0
 character_speed = 0.6
 
 # 적 enemy 캐릭터
-enemy = pygame.image.load("PYTHON/PYTHON 활용/pygame_basic/enemy.png")
+enemy = pygame.image.load("F:/코딩/PYTHON/PYTHON 활용/pygame_basic/enemy.png")
 enemy_size = enemy.get_rect().size # 이미지의 크기 구해옴
 enemy_width = enemy_size[0] # 캐릭터의 가로크기
 enemy_height = enemy_size[1] # 캐릭터의 세로크기
