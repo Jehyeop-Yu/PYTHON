@@ -2,6 +2,7 @@
 import os
 from typing import Tuple
 import pygame
+import pygame.freetype
 from random import *
 
 def display_start_btn():
@@ -41,19 +42,20 @@ def display_round():
     global Round_score
     if round_cnt < 5:
         Round_score = round_set // (2**round_cnt)
-        txt_curr_round = game_font.render(f"{Round_score}강", True, BLACK)
+        txt_curr_round = font.render(f"{Round_score}강", True, BLACK)
         if Round_score == 2:
-            txt_curr_round = game_font.render(f"준결승", True, BLACK)
+            txt_curr_round = font.render(f"준결승", True, BLACK)
         elif Round_score == 1:
-            txt_curr_round = game_font.render(f"결승", True, BLACK)
+            txt_curr_round = font.render(f"결승", True, BLACK)
     else:
-        txt_curr_round = game_font.render(f"당신의 이상형", True, BLACK)
+        txt_curr_round = font.render(f"당신의 이상형", True, BLACK)
     screen.blit(txt_curr_round, (50, 20))
 
 def display_situation():
     global situations_list
-    situation = game_font.render("{}".format(situations_list), True, BLACK)
-    screen.blit(situation, (0, screen_height*3/4))
+    word_wrap(screen, "{}".format(situations_list), font)
+    # situation = font.render("{}".format(situations_list), True, BLACK)
+    # screen.blit(situation, (0, screen_height*3/4))
 
 def check_buttons(pos):
     global start, situation
@@ -85,6 +87,7 @@ def check_right_img():
     next_round.append(round[1])
     del round[0:2]
 
+
 def random_situations():
     global situations_list
     situations_list = [
@@ -95,6 +98,25 @@ def random_situations():
     shuffle(situations_list)
     # situations = sample(situations_list , 1)
     print("{}".format(situations_list))
+    
+def word_wrap(surf, text, font, color=(0, 0, 0)):
+    font.origin = True
+    words = text.split(' ')
+    width, height = surf.get_size()
+    line_spacing = font.get_sized_height() + 2
+    x, y = 0, line_spacing
+    space = font.get_rect(' ')
+    for word in words:
+        bounds = font.get_rect(word)
+        if x + bounds.width + bounds.x >= width:
+            x, y = 0, y + line_spacing
+        if x + bounds.width + bounds.x >= width:
+            raise ValueError("word too wide for the surface")
+        if y + bounds.height - bounds.y >= height:
+            raise ValueError("text to long for the surface")
+        font.render_to(surf, (x, y), None, color)
+        x += bounds.width + space.width
+    return x, y
 
     
 
@@ -152,7 +174,7 @@ select_left = pygame.Rect(0, 55, 600, 645)
 
 select_right = pygame.Rect(600, 55, 600, 645)
 
-game_font = pygame.font.SysFont('카페24동동', 30)
+font = pygame.freetype.SysFont('카페24동동', 30)
 # game_font = pygame.font.SysFont("arialrounded", 30)
 
 BLACK = (0, 0, 0)
