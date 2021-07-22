@@ -2,7 +2,6 @@
 import os
 from typing import Tuple
 import pygame
-import pygame.freetype
 from random import *
 
 def display_start_btn():
@@ -16,6 +15,9 @@ def display_Chance_btn():
 def display_help_btn():
     pygame.draw.rect(screen, BLACK, helpbtn, 1)
     screen.blit(help_btn, ((screen_width)-230, 10))
+
+def fingerprint():
+    pygame.draw.rect(screen, BLACK, fingerprint_background)
 
 def display_img(i):
     global round
@@ -42,20 +44,20 @@ def display_round():
     global Round_score
     if round_cnt < 5:
         Round_score = round_set // (2**round_cnt)
-        txt_curr_round = font.render(f"{Round_score}강", True, BLACK)
+        txt_curr_round = game_font.render(f"{Round_score}강", True, BLACK)
         if Round_score == 2:
-            txt_curr_round = font.render(f"준결승", True, BLACK)
+            txt_curr_round = game_font.render(f"준결승", True, BLACK)
         elif Round_score == 1:
-            txt_curr_round = font.render(f"결승", True, BLACK)
+            txt_curr_round = game_font.render(f"결승", True, BLACK)
     else:
-        txt_curr_round = font.render(f"당신의 이상형", True, BLACK)
+        txt_curr_round = game_font.render(f"당신의 이상형", True, BLACK)
     screen.blit(txt_curr_round, (50, 20))
 
 def display_situation():
-    global situations_list
-    word_wrap(screen, "{}".format(situations_list), font)
-    # situation = font.render("{}".format(situations_list), True, BLACK)
-    # screen.blit(situation, (0, screen_height*3/4))
+    global situations_list, situation0
+    situation = game_font.render("{}".format(situation0), True, WHITE)
+    screen.blit(situation, (100, screen_height*5/6))
+    
 
 def check_buttons(pos):
     global start, situation
@@ -67,6 +69,7 @@ def check_buttons(pos):
         elif helpbtn.collidepoint(pos):
             print("click: helpbtn")
             random_situations()
+            # display_situation()
         elif chancebtn.collidepoint(pos):
             print("click: chancebtn")
     elif startbtn.collidepoint(pos):     
@@ -87,38 +90,19 @@ def check_right_img():
     next_round.append(round[1])
     del round[0:2]
 
-
 def random_situations():
-    global situations_list
+    global situations_list, situation0
     situations_list = [
-    " 상황 1 : 바다에 빠졌을 경우 한명만 구할 수 있다.둘중 누구를 구할 것인가?",
-    " 상황 2 : 오랫동안 기다려온 영화를 드디어 예매했다. 운좋게 영화관 이벤트로 VVIP 티켓 2장으로 업그레이드 해줬다. 무조건 2명 입장인데 두명 중 누구랑 갈 것인가? ",
-    " 상황 3 : 오랜만에 쇼핑하러 백화점에 왔다. 둘러보다가 눈에 띄는 포스터에 이끌려 매장에 들어가 옷을 샀다. 그 포스터에 걸맞는 모델은 누구였으면 하는가? "
+    " 상황 1 : 바다에 빠졌을 경우 한명만 구할 수 있다. 누구를 구할 것인가? ",
+    " 상황 2 : 운좋게 영화관 이벤트로 VVIP 티켓 2장이 생겼다. 누구랑 갈 것인가? ",
+    " 상황 3 : 지나가던 길에 눈에 띄는 포스터가 보였다. 그 포스터에 걸맞는 모델은 누구였는가? "
     ]
     shuffle(situations_list)
     # situations = sample(situations_list , 1)
-    print("{}".format(situations_list))
+    situation0 = situations_list[0]
+    print("{}".format(situation0))
     
-def word_wrap(surf, text, font, color=(0, 0, 0)):
-    font.origin = True
-    words = text.split(' ')
-    width, height = surf.get_size()
-    line_spacing = font.get_sized_height() + 2
-    x, y = 0, line_spacing
-    space = font.get_rect(' ')
-    for word in words:
-        bounds = font.get_rect(word)
-        if x + bounds.width + bounds.x >= width:
-            x, y = 0, y + line_spacing
-        if x + bounds.width + bounds.x >= width:
-            raise ValueError("word too wide for the surface")
-        if y + bounds.height - bounds.y >= height:
-            raise ValueError("text to long for the surface")
-        font.render_to(surf, (x, y), None, color)
-        x += bounds.width + space.width
-    return x, y
 
-    
 
 pygame.init() 
 screen_width = 1200 # 가로 크기
@@ -150,6 +134,9 @@ help_height = help_size[1]
 helpbtn = pygame.Rect((screen_width)-230, 10, help_width, help_height)
 
 
+fingerprint_background = pygame.Rect(30, (screen_height*5/6)-5, 1140, 40)
+
+
 imges = [
     pygame.image.load(os.path.join(current_path, "img1.png")),
     pygame.image.load(os.path.join(current_path, "img2.png")),
@@ -174,7 +161,7 @@ select_left = pygame.Rect(0, 55, 600, 645)
 
 select_right = pygame.Rect(600, 55, 600, 645)
 
-font = pygame.freetype.SysFont('카페24동동', 30)
+game_font = pygame.font.SysFont('카페24동동', 30)
 # game_font = pygame.font.SysFont("arialrounded", 30)
 
 BLACK = (0, 0, 0)
@@ -187,6 +174,7 @@ round = ()
 next_round = ()
 
 situations_list = []
+situation0 = ""
 
 # select_img_1 = list(enumerate(imges))
 select_img_1 = list(imges)
@@ -235,12 +223,14 @@ while running:
     if start == True:
         display_help_btn()
         display_Chance_btn()
+        fingerprint()
         pass
     else:
         display_start_btn()
 
     if click_pos:
         check_buttons(click_pos)
+
 
     display_situation()
     display_round()

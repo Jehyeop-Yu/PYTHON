@@ -92,6 +92,7 @@ def random_situations():
     " 상황 2 : 오랫동안 기다려온 영화를 드디어 예매했다. 운좋게 영화관 이벤트로 VVIP 티켓 2장으로 업그레이드 해줬다. 무조건 2명 입장인데 두명 중 누구랑 갈 것인가? ",
     " 상황 3 : 오랜만에 쇼핑하러 백화점에 왔다. 둘러보다가 눈에 띄는 포스터에 이끌려 매장에 들어가 옷을 샀다. 그 포스터에 걸맞는 모델은 누구였으면 하는가? "
     ]
+    
     shuffle(situations_list)
     # situations = sample(situations_list , 1)
     print("{}".format(situations_list))
