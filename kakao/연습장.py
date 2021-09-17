@@ -19,3 +19,5 @@ def solution(m, n, board):
     print(position)
 
 solution(4,	5, ["CCBDE", "AAADE", "AAABF", "CCBBF"])
+
+c추가추가추가추가추가
